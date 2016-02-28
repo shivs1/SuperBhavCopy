@@ -58,8 +58,6 @@ def getBhav (date):
     df['TOTDLYQTY'] = np.where(df['TOTDLYQTY'].isnull()==True, df['TOTTRDQTY'], df['TOTDLYQTY'])
     df.to_csv(getContent.namelist()[0])
 
-# getBhav('20160226')
-
 def getDay(date):
     date = datetime.strptime(date, '%d%m%Y')
     try:
