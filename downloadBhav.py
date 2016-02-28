@@ -2,15 +2,13 @@
 # Twitter.com/Uptickr
 # See license.txt for copying permission
 
-import requests, pandas as pd, numpy as np
+import requests, sys, pandas as pd, numpy as np
 from io import BytesIO
 from zipfile import ZipFile
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def getBhav (date):
-
-    date = datetime.strptime(date, '%Y%m%d')
 
     headers = { 'Accept' : '*/*',
                 'User-Agent' : 'Mozilla/5.0',
@@ -60,4 +58,44 @@ def getBhav (date):
     df['TOTDLYQTY'] = np.where(df['TOTDLYQTY'].isnull()==True, df['TOTTRDQTY'], df['TOTDLYQTY'])
     df.to_csv(getContent.namelist()[0])
 
-getBhav('20160226')
+# getBhav('20160226')
+
+def getDay(date):
+    date = datetime.strptime(date, '%d%m%Y')
+    try:
+        getBhav(date)
+    except Exception as e:
+        pass
+
+def getRange(start, end):
+    start = datetime.strptime(start, '%d%m%Y')-timedelta(days=1)
+    end = datetime.strptime(end, '%d%m%Y')
+    delta = timedelta(days=1)
+    while start<=end:
+        start+=delta
+        try:
+            getBhav(start)
+        except Exception as e:
+            pass
+
+def howTo():
+    print ('*****\nUSAGE\n*****')
+    print ('python downloadBhav.py -getDay \n>>> Downloads BhavCopy for specified Date\n')
+    print ('python downloadBhav.py -getRange [start] [end] \n>>> Downloads BhavCopy for specified '
+           'Range\n')
+    print ('Example (Use Date Format DDMMYYYY)\n>>> python downloadBhav.py -getRange 01012015 '
+           '01012016\n\n')
+
+def main(args):
+    if args:
+        if args[0] == "-getDay":
+            getDay(args[1])
+        elif args[0] == "-getRange":
+            getRange(args[1], args[2])
+        else:
+            howTo()
+    else:
+        howTo()
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
