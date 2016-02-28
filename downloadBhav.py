@@ -1,5 +1,6 @@
 # Copyright (c) 2016 Vashistha Iyer
 # Twitter.com/Uptickr
+# See license.txt for copying permission
 
 import requests, pandas as pd, numpy as np
 from io import BytesIO
