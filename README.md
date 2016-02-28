@@ -11,7 +11,7 @@ Downloads data for [date]
 
     python downloadBhav.py -getRange [start_date] [end_date]
     
-Downloads date for all days from [start_date] to [end_date]
+Downloads data for all days from [start_date] to [end_date]
 
 Example (enter date in DDMMYY format):
 
